@@ -1,9 +1,6 @@
 import React from 'react'
 import ScrollIntoView from './ScrollIntoView'
-
-function getDisplayName(WrappedComponent) {
-  return WrappedComponent.displayName || WrappedComponent.name || 'Component'
-}
+import { getDisplayName } from '../helpers'
 
 const withScroll = (Component, options = {}) => {
   const {

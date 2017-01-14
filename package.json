@@ -1,6 +1,6 @@
 {
   "name": "rr-components",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "React Router v4 helper components",
   "main": "lib/index.js",
   "files": [
@@ -28,9 +28,8 @@
     "url": "https://github.com/pshrmn/rr-components/issues"
   },
   "homepage": "https://github.com/pshrmn/rr-components#readme",
-  "peerDependencies": {
-    "react": "15.x",
-    "react-router": "4.x"
+  "dependencies": {
+    "react": "^15.4.1"
   },
   "devDependencies": {
     "babel-cli": "^6.18.0",
@@ -38,10 +37,10 @@
     "babel-jest": "^17.0.2",
     "babel-plugin-transform-class-properties": "^6.19.0",
     "babel-plugin-transform-export-extensions": "^6.8.0",
+    "babel-plugin-transform-object-rest-spread": "^6.20.2",
     "babel-preset-es2015": "^6.18.0",
     "babel-preset-react": "^6.16.0",
     "jest": "^17.0.3",
-    "react": "^15.4.1",
     "react-dom": "^15.4.1",
     "react-test-renderer": "^15.4.1",
     "rimraf": "^2.5.4"
