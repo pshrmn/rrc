@@ -12,7 +12,7 @@ React Router provides its matched components with a `location` prop. This is an 
 
 ```js
 import React from 'react'
-import ScrollIntoView from 'scroll-component'
+import { ScrollIntoView } from 'rrc'
 
 const FAQ = (props) => (
   <div>

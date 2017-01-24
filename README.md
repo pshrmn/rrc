@@ -1,4 +1,4 @@
-## rr-components
+## RRC = React Router Components
 
 This module contains a number of components that can be used in conjuction with [React Router v4](https://github.com/ReactTraining/react-router/tree/v4).
 
@@ -9,14 +9,14 @@ v4 of React Router is still in alpha, so any breaking changes to it might also b
 #### Installation
 
 ```
-npm install --save rr-components
+npm install --save rrc
 ```
 
 #### Usage
 
 ```js
 import React from 'react'
-import { ScrollIntoView } from 'rr-components'
+import { ScrollIntoView } from 'rrc'
 
 const FAQ = ({ location }) => (
   <div>

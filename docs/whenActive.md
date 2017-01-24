@@ -20,6 +20,7 @@ When the current location matches a link's location, that link should be given t
 
 ```js
 import { Link } from 'react-router'
+import { whenActive } from 'rrc'
 
 const ActiveLink = whenActive({
   className: 'active'
