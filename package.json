@@ -1,5 +1,5 @@
 {
-  "name": "rr-components",
+  "name": "rrc",
   "version": "0.2.0",
   "description": "React Router v4 helper components",
   "main": "lib/index.js",
@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pshrmn/rr-components.git"
+    "url": "git+https://github.com/pshrmn/rrc.git"
   },
   "keywords": [
     "react-router",
@@ -25,9 +25,9 @@
   "author": "Paul Sherman",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/pshrmn/rr-components/issues"
+    "url": "https://github.com/pshrmn/rrc/issues"
   },
-  "homepage": "https://github.com/pshrmn/rr-components#readme",
+  "homepage": "https://github.com/pshrmn/rrc#readme",
   "dependencies": {
     "react": "^15.4.1"
   },
