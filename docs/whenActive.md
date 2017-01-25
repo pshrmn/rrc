@@ -82,6 +82,8 @@ The `pathProp` option controls which prop of the wrapped component to get its lo
 const ActiveButton = whenActive({
   pathProp: 'location'
 })(Button)
+
+<ActiveButton location='/one'>Click Me!</ActiveButton>
 ```
 
 #### `exact`
@@ -102,8 +104,26 @@ const ActiveLink = whenActive({
 
 The `strict` option is used to specify that strict matching should be done. By default this value is `false`. When using strict matching, a path that ends with a trailing slash will not match a `location.pathname` that does not.
 
+```js
+const ActiveLink = whenActive({
+  strict: true
+})(Link)
+
+// when the current URL is /foo
+<ActiveLink to='/foo' /> // is active
+<ActiveLink to='/foo/' /> // is not active
+```
+
 #### isActive
 
 You may want to use a more complicated configuration for determining whether or not a component should be active or not. For example, if you have a set of locations and any of them matching means that the component should be active. For cases like this, you can provide your own `isActive` function as an option.
 
 This function will not have access to the other options (i.e., `exact`, `strict`, and `pathProp`). Those are used to configured the default `isActive` function. By providing your own `isActive` function, you can control these values yourself (if you need them).
+
+
+```js
+// This will style a component as active ~50% of the time ;)
+const FiftyFifty = whenActive({
+  isActive: () => Math.random() > 0.5
+})
+```
