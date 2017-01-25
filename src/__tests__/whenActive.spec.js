@@ -1,6 +1,7 @@
 import React from 'react'
 import { render, unmountComponentAtNode } from 'react-dom'
-import { MemoryRouter, Link } from 'react-router'
+import { MemoryRouter, matchPath } from 'react-router'
+import { Link } from 'react-router-dom'
 import whenActive from '../components/whenActive'
 
 describe('whenActive', () => {
@@ -145,6 +146,41 @@ describe('whenActive', () => {
     })
   })
 
+  describe('strict', () => {
+    it('matches location strictly when true', () => {
+      const ACTIVE_CLASSNAME = 'ACTIVE_CLASSNAME'
+      const ActiveLink = whenActive({
+        strict: true,
+        className: ACTIVE_CLASSNAME
+      })(Link)
+
+      render(
+        <MemoryRouter initialEntries={[ '/food' ]} initialIndex={0}>
+          <ActiveLink to='/food/'>Active Link</ActiveLink>
+        </MemoryRouter>
+      , div)
+
+      const link = div.getElementsByTagName('a')[0]
+      expect(link.classList).not.toContain(ACTIVE_CLASSNAME)
+    })
+
+    it('does not match location strictly when false (default)', () => {
+      const ACTIVE_CLASSNAME = 'ACTIVE_CLASSNAME'
+      const ActiveLink = whenActive({
+        strict: false,
+        className: ACTIVE_CLASSNAME
+      })(Link)
+
+      render(
+        <MemoryRouter initialEntries={[ '/food' ]} initialIndex={0}>
+          <ActiveLink to='/food/'>Active Link</ActiveLink>
+        </MemoryRouter>
+      , div)
+      const link = div.getElementsByTagName('a')[0]
+      expect(link.classList).toContain(ACTIVE_CLASSNAME)
+    })
+  })
+
 
   describe('pathProp', () => {
     it('defaults to "to"', () => {
@@ -185,6 +221,46 @@ describe('whenActive', () => {
       , div)
       const p = div.getElementsByTagName('p')[0]
       expect(p.classList).toContain(ACTIVE_CLASSNAME)
+    })
+
+    describe('isActive', () => {
+      it('uses custom function if provided', () => {
+        const ACTIVE_CLASSNAME = 'ACTIVE_CLASSNAME'
+      const LocationComponent = (props) => (
+        <p className={props.className}>{props.children}</p>
+      )
+
+      const ActiveLocation = whenActive({
+        className: ACTIVE_CLASSNAME,
+        isActive: (pathname, props) => {
+          let active = false
+          const exact = true
+          const locations = props['locs']
+          for (let i=0; i<locations.length; i++){
+            const match = matchPath(pathname, locations[i], { exact })
+            if (!match) {
+              continue
+            }
+            if (!exact) {
+              return true
+            } else {
+              if (match.isExact) {
+                return true
+              }
+            }
+          }
+          return active
+        }
+      })(LocationComponent)
+
+      render(
+        <MemoryRouter initialEntries={[ '/foo' ]} initialIndex={0}>
+          <ActiveLocation locs={['/bar', '/foo']}>Active Location</ActiveLocation>
+        </MemoryRouter>
+      , div)
+      const p = div.getElementsByTagName('p')[0]
+      expect(p.classList).toContain(ACTIVE_CLASSNAME)  
+      })
     })
 
   })

@@ -83,7 +83,7 @@ const ActiveButton = whenActive({
 
 #### `exact`
 
-The `exact` prop is used to specify that the active `className` or `style` should only be applied when the location is an exact match. By default the location `/foo` is active when the URL is `/foo/bar`. However, if `exact = true`, then a component with the location `/foo` will only be active when the URL is `/foo`.
+The `exact` option is used to specify that the active `className` or `style` should only be applied when the location is an exact match. By default the location `/foo` is active when the URL is `/foo/bar`. However, if `exact = true`, then a component with the location `/foo` will only be active when the URL is `/foo`.
 
 ```js
 const ActiveLink = whenActive({
@@ -93,4 +93,40 @@ const ActiveLink = whenActive({
 // when the current URL is /foo/bar
 <ActiveLink to='/foo/bar' /> // is active
 <ActiveLink to='/foo' /> // is not active
+```
+
+#### `strict`
+
+The `strict` option is used to specify that strict matching should be done. By default this value is `false`. When using strict matching, a path that ends with a trailing slash will not match a `location.pathname` that does not.
+
+#### isActive
+
+You may want to use a more complicated configuration for determining whether or not a component should be active or not. For example, if you have a set of locations and any of them matching means that the component should be active. For cases like this, you can provide your own `isActive` function as an option.
+
+This function will not have access to the other options, so you will need to specify them yourself.
+
+```js
+const ActiveLocation = whenActive({
+  className: ACTIVE_CLASSNAME,
+  isActive: (pathname, props) => {
+    let active = false
+    const exact = true
+    const locations = props['locs']
+    // iterate over all of the locations
+    for (let i=0; i<locations.length; i++){
+      const match = matchPath(pathname, locations[i], { exact })
+      if (!match) {
+        continue
+      }
+      if (!exact) {
+        return true
+      } else {
+        if (match.isExact) {
+          return true
+        }
+      }
+    }
+    return active
+  }
+})(LocationComponent)
 ```
