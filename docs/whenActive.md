@@ -1,8 +1,8 @@
-#whenActive
+# whenActive
 
 Using the `whenActive` higher-order component, you can create a component that can have a class or styles injected into it when its location-specifying prop matches the current location's `pathname`.
 
-###Example
+### Example
 
 An application might have a a menu that is rendered on all (or many different)  views. Each link in the menu has a location associated with it.
 
@@ -39,7 +39,7 @@ const Menu = () => ()
 )
 ```
 
-###Usage
+### Usage
 
 The `whenActive` HOC can be configured using an `options` object which is passed to it.
 
@@ -70,6 +70,9 @@ const ActiveLink = whenActive({
 <ActiveLink to='/foo' style={{ color: blue }} /> // style.color = 'red'
 <ActiveLink to='/bar' style={{ color: blue }} /> // style.color = 'blue'
 ```
+
+---
+**Note:** The above props are used for styling an active component. The rest of the props are used for determining if a component _is_ active.
 
 #### `pathProp`
 
@@ -103,30 +106,4 @@ The `strict` option is used to specify that strict matching should be done. By d
 
 You may want to use a more complicated configuration for determining whether or not a component should be active or not. For example, if you have a set of locations and any of them matching means that the component should be active. For cases like this, you can provide your own `isActive` function as an option.
 
-This function will not have access to the other options, so you will need to specify them yourself.
-
-```js
-const ActiveLocation = whenActive({
-  className: ACTIVE_CLASSNAME,
-  isActive: (pathname, props) => {
-    let active = false
-    const exact = true
-    const locations = props['locs']
-    // iterate over all of the locations
-    for (let i=0; i<locations.length; i++){
-      const match = matchPath(pathname, locations[i], { exact })
-      if (!match) {
-        continue
-      }
-      if (!exact) {
-        return true
-      } else {
-        if (match.isExact) {
-          return true
-        }
-      }
-    }
-    return active
-  }
-})(LocationComponent)
-```
+This function will not have access to the other options (i.e., `exact`, `strict`, and `pathProp`). Those are used to configured the default `isActive` function. By providing your own `isActive` function, you can control these values yourself (if you need them).
