@@ -10,10 +10,12 @@
     "*.md"
   ],
   "scripts": {
-    "prebuild": "rimraf lib",
-    "build": "babel ./src -d lib --ignore __tests__",
+    "prebuild": "rimraf lib umd",
+    "build": "npm run build:lib && npm run build:umd && npm run build:min",
+    "build:lib": "babel ./src -d lib --ignore __tests__",
     "build:umd": "webpack --define process.env.NODE_ENV=\"'production'\" --output-filename=umd/rrc.js",
     "build:min": "webpack -p --optimize-minimize --output-filename=umd/rrc.min.js",
+    "prepublish": "npm run build",
     "test": "jest"
   },
   "repository": {
