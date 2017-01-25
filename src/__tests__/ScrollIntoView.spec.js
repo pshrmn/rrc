@@ -32,7 +32,7 @@ describe('<ScrollIntoView>', () => {
     })
 
     afterEach(() => {
-      mockScroll.mockReset()  
+      mockScroll.mockReset()
       unmountComponentAtNode(div)
       document.body.removeChild(div)
     })

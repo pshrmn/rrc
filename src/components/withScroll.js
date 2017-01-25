@@ -4,7 +4,9 @@ import { getDisplayName } from '../helpers'
 
 const withScroll = (Component, options = {}) => {
   const {
-    propId = (props) => props && props.location && props.location.hash,
+    propId = (props) => (
+      props && props.history && props.history.location && props.history.location.hash
+    ),
     alignToTop = true
   } = options
   const WithScroll = (props) => (

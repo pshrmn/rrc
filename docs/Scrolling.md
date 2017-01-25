@@ -41,7 +41,7 @@ const Foo = (props) => (
   </ScrollIntoView>
 )
  
-<Match pattern='/foo' component={Foo} />
+<Route path='/foo' component={Foo} />
 ```
 
 #### `id`
@@ -93,17 +93,17 @@ const Foo = (props) => (
   </div>
 )
 
-<Match pattern='/foo' component={withScroll(Foo)} />
+<Route path='/foo' component={withScroll(Foo)} />
 ```
 
 ### Options
 
 #### `propId`
 
-If provided, `propId` is a function that will return the `id` of the element which should be scrolled to. The function will be passed the `props` object that is used to render the component. The default `propId` function returns `props.location.hash`, which is the location of the hash that is passed by React Router to matched components.
+If provided, `propId` is a function that will return the `id` of the element which should be scrolled to. The function will be passed the `props` object that is used to render the component. The default `propId` function returns `props.history.location.hash`, which is the location of the hash that is passed by React Router to matched components.
 
 ```js
-<Match pattern='/foo' component={withScroll(Foo, { propId: () => '#scroll' })} />
+<Route path='/foo' component={withScroll(Foo, { propId: () => '#scroll' })} />
 ```
 
 #### `alignToTop`
@@ -111,5 +111,5 @@ If provided, `propId` is a function that will return the `id` of the element whi
 You can specify the scroll alignment with the `alignToTop` option. `true` is the default value while `false` will align the bottom of the scrolled to element with the bottom of the page.
 
 ```
-<Match pattern='/foo' component={withScroll(Foo, { alignToTop: false })} />
+<Route path='/foo' component={withScroll(Foo, { alignToTop: false })} />
 ```
