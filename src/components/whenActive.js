@@ -2,8 +2,6 @@ import React from 'react'
 import { matchPath, withRouter } from 'react-router'
 import { getDisplayName } from '../helpers'
 
-// const ActiveLink = whenActive({ className: 'active' })(Link)
-// const ExactActiveLink = whenActive({ className: 'active', exact: true })(Link)
 const whenActive = (options = {}) => {
   const {
     exact = false,
