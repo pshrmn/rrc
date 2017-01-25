@@ -12,17 +12,7 @@ v4 of React Router is still in alpha, so any breaking changes to it might also b
 npm install --save rrc
 ```
 
-#### Usage
 
-```js
-import React from 'react'
-import { ScrollIntoView } from 'rrc'
+#### Components
 
-const FAQ = ({ location }) => (
-  <div>
-    <ScrollIntoView id={location.hash} />
-    <Questions />
-    <Answers />
-  </div>
-)
-```
+Read about the various components that are provided in the [docs](docs/README.md)
