@@ -183,13 +183,13 @@ describe('whenActive', () => {
 
 
   describe('pathProp', () => {
+
+    const LocationComponent = (props) => (
+      <p className={props.className}>{props.children}</p>
+    )
+
     it('defaults to "to"', () => {
       const ACTIVE_CLASSNAME = 'ACTIVE_CLASSNAME'
-
-      const LocationComponent = (props) => (
-        <p className={props.className}>{props.children}</p>
-      )
-
       const ActiveLocation = whenActive({
         className: ACTIVE_CLASSNAME
       })(LocationComponent)
@@ -205,10 +205,6 @@ describe('whenActive', () => {
 
     it('gets location from pathProp if provided', () => {
       const ACTIVE_CLASSNAME = 'ACTIVE_CLASSNAME'
-      const LocationComponent = (props) => (
-        <p className={props.className}>{props.children}</p>
-      )
-
       const ActiveLocation = whenActive({
         className: ACTIVE_CLASSNAME,
         pathProp: 'loc'
@@ -226,40 +222,36 @@ describe('whenActive', () => {
     describe('isActive', () => {
       it('uses custom function if provided', () => {
         const ACTIVE_CLASSNAME = 'ACTIVE_CLASSNAME'
-      const LocationComponent = (props) => (
-        <p className={props.className}>{props.children}</p>
-      )
-
-      const ActiveLocation = whenActive({
-        className: ACTIVE_CLASSNAME,
-        isActive: (pathname, props) => {
-          let active = false
-          const exact = true
-          const locations = props['locs']
-          for (let i=0; i<locations.length; i++){
-            const match = matchPath(pathname, locations[i], { exact })
-            if (!match) {
-              continue
-            }
-            if (!exact) {
-              return true
-            } else {
-              if (match.isExact) {
+        const ActiveLocation = whenActive({
+          className: ACTIVE_CLASSNAME,
+          isActive: (pathname, props) => {
+            let active = false
+            const exact = true
+            const locations = props['locs']
+            for (let i=0; i<locations.length; i++){
+              const match = matchPath(pathname, locations[i], { exact })
+              if (!match) {
+                continue
+              }
+              if (!exact) {
                 return true
+              } else {
+                if (match.isExact) {
+                  return true
+                }
               }
             }
+            return active
           }
-          return active
-        }
-      })(LocationComponent)
+        })(LocationComponent)
 
-      render(
-        <MemoryRouter initialEntries={[ '/foo' ]} initialIndex={0}>
-          <ActiveLocation locs={['/bar', '/foo']}>Active Location</ActiveLocation>
-        </MemoryRouter>
-      , div)
-      const p = div.getElementsByTagName('p')[0]
-      expect(p.classList).toContain(ACTIVE_CLASSNAME)  
+        render(
+          <MemoryRouter initialEntries={[ '/foo' ]} initialIndex={0}>
+            <ActiveLocation locs={['/bar', '/foo']}>Active Location</ActiveLocation>
+          </MemoryRouter>
+        , div)
+        const p = div.getElementsByTagName('p')[0]
+        expect(p.classList).toContain(ACTIVE_CLASSNAME)  
       })
     })
 
