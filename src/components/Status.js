@@ -8,13 +8,13 @@ class Status extends Component {
   }
 
   static propTypes = {
-    status: PropTypes.string.isRequired
+    code: PropTypes.string.isRequired
   }
 
   componentWillMount() {
     const { staticContext } = this.context.router
     if (staticContext) {
-      staticContext.status = this.props.status
+      staticContext.status = this.props.code
     }
   }
 
