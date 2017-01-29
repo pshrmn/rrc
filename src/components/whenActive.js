@@ -1,6 +1,6 @@
 import React from 'react'
 import { matchPath, withRouter } from 'react-router'
-import { getDisplayName } from '../helpers'
+import { getDisplayName, removeRouterProps } from '../helpers'
 
 const whenActive = (options = {}) => {
   const {
@@ -21,15 +21,14 @@ const whenActive = (options = {}) => {
       const {
         className = '',
         style = {},
-        history,
-        match:undefMatch,
+        location,
         ...rest
       } = props
-      const active = getIsActive(history.location.pathname, props)
+      const active = getIsActive(location.pathname, props)
       return React.createElement(component, {
+        ...removeRouterProps(rest),
         className: active ? [className, activeClassName].join(' ') : className,
-        style: active ? {...style, ...activeStyle} : style,
-        ...rest
+        style: active ? {...style, ...activeStyle} : style
       })
     }
     WhenActive.displayName = `whenActive(${getDisplayName(component)})`
