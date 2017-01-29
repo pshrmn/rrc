@@ -3,9 +3,7 @@ import React from 'react'
 class OnUpdate extends React.Component {
   static contextTypes = {
     router: React.PropTypes.shape({
-      history: React.PropTypes.shape({
-        listen: React.PropTypes.func.isRequired
-      }).isRequired
+      listen: React.PropTypes.func.isRequired
     }).isRequired
   }
 
@@ -24,14 +22,14 @@ class OnUpdate extends React.Component {
   }
 
   componentDidMount() {
-    this.unlisten = this.context.router.history.listen(this.call)
+    this.unlisten = this.context.router.listen(this.call)
     if (this.props.immediate) {
       this.call()
     }
   }
 
   call() {
-    this.props.call(this.context.router.history.location)
+    this.props.call(this.context.router.location)
   }
 
   comonentWillUnmount() {
