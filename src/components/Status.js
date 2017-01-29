@@ -1,21 +1,20 @@
-import React from 'react'
+import { Component, PropTypes } from 'react'
 
-class Status extend React.Component {
+class Status extends Component {
   static contextTypes = {
-    router: React.PropTypes.shape({
-      isStatic: React.PropTypes.bool,
-      context: React.PropTypes.object
+    router: PropTypes.shape({
+      staticContext: PropTypes.object
     }).isRequired
   }
 
   static propTypes = {
-    status: React.PropTypes.string.isRequired
+    status: PropTypes.string.isRequired
   }
 
   componentWillMount() {
-    const { isStatic, context } = this.context.router
-    if (isStatic) {
-      context.status = this.props.status
+    const { staticContext } = this.context.router
+    if (staticContext) {
+      staticContext.status = this.props.status
     }
   }
 
