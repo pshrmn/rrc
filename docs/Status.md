@@ -7,7 +7,7 @@ This component does not render anything and will have no effect when rendered in
 ### Example
 
 ```js
-const Routes = () => (
+const App = () => (
   <Switch>
     <Route exact path='/' component={Home} />
     <Rotue path='/about' component={About} />
@@ -26,6 +26,7 @@ const NoMatch = () => (
 Then, on the server, you would check if the `context` object has a `status` property set, which you can use to set the status of the response.
 
 ```js
+// server
 function handleRequest(req, res) {
   const context = {}
   const html = renderToString(
@@ -41,4 +42,15 @@ function handleRequest(req, res) {
   }
   res.send(html)
 }
+```
+
+On the client side, when rendering `<App>` inside of a `<BrowserRouter>` or `<HashRouter>`, the `<Status>` will have no effet.
+
+```js
+// client
+ReactDOM.render((
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>
+), document.getElementById('root'))
 ```
