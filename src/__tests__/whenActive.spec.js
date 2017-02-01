@@ -1,6 +1,8 @@
 import React from 'react'
 import { render, unmountComponentAtNode } from 'react-dom'
-import { MemoryRouter, matchPath } from 'react-router'
+import { Simulate } from 'react-addons-test-utils'
+import { createMemoryHistory } from 'history'
+import { MemoryRouter, Router, matchPath } from 'react-router'
 import { Link } from 'react-router-dom'
 import whenActive from '../components/whenActive'
 
@@ -255,5 +257,34 @@ describe('whenActive', () => {
       })
     })
 
+  })
+
+  describe('namespace collisions', () => {
+    it('does not happen', () => {
+      const ACTIVE_CLASSNAME = 'ACTIVE_CLASSNAME'
+      const ActiveLink = whenActive({
+        className: ACTIVE_CLASSNAME
+      })(Link)
+      const history = createMemoryHistory({
+        initialEntries: ['/foo']
+      })
+      history.replace = jest.fn()
+      render(
+        <Router history={history}>
+          <ActiveLink id='link' replace to='/foo'>Active Link</ActiveLink>
+        </Router>
+      , div)
+
+      Simulate.click(div.querySelector('#link'), {
+        defaultPrevented: false,
+        preventDefault() { this.defaultPrevented = true },
+        metaKey: null,
+        altKey: null,
+        ctrlKey: null,
+        shiftKey: null,
+        button: 0
+      })
+      expect(history.replace.mock.calls.length).toBe(1)
+    })
   })
 })

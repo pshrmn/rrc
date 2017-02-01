@@ -1,6 +1,6 @@
 {
   "name": "rrc",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "description": "React Router v4 helper components",
   "main": "lib/index.js",
   "files": [
@@ -50,7 +50,9 @@
     "babel-preset-react": "^6.16.0",
     "history": "^4.5.1",
     "jest": "^17.0.3",
-    "react-dom": "^15.4.1",
+    "react": "^15.4.2",
+    "react-addons-test-utils": "^15.4.2",
+    "react-dom": "^15.4.2",
     "react-test-renderer": "^15.4.1",
     "rimraf": "^2.5.4",
     "webpack": "^2.2.0"
