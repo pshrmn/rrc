@@ -22,7 +22,7 @@ describe('withScroll', () => {
         it('defaults to using location.hash value', () => {
           const hash = '#hash'
           const WrappedComponent = withScroll(TestDiv)
-          const instance = WrappedComponent({ history: { location: { hash }}})
+          const instance = WrappedComponent({ location: { hash }})
           expect(instance.props.id).toEqual(hash)
         })
 
