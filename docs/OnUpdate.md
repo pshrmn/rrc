@@ -6,7 +6,7 @@ The `<OnUpdate>` component will be called whenever the location changes.
 
 #### `call`
 
-A function to be called whenever the location changes. The function will be passed the location descriptor of the new location.
+A function to be called whenever the location changes. The function will be passed the new location object.
 
 ```js
 <OnUpdate
