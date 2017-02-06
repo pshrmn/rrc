@@ -52,4 +52,32 @@ describe('ConfigSwitch', () => {
       expect(node.textContent).not.toEqual(expect.stringMatching(text))
     })
   })
+
+  describe('location prop', () => {
+    it('matches based on props.location, not actual location', () => {
+      const text = 'HERE'
+      const Here = () => <div>{text}</div>
+      render((
+        <MemoryRouter initialEntries={[ '/nowhere']}>
+          <ConfigSwitch location={{ pathname: '/here' }} routes={[
+            { path: '/here', component: Here }
+          ]} />
+        </MemoryRouter>
+      ), node)
+      expect(node.textContent).toEqual(expect.stringMatching(text))
+    })
+
+    it('child routes access props.location', () => {
+      const location = { pathname: '/here' }
+      const Here = ({ location }) => <div>{location.pathname}</div>
+      render((
+        <MemoryRouter initialEntries={[ '/nowhere']}>
+          <ConfigSwitch location={location} routes={[
+            { path: '/here', component: Here }
+          ]} />
+        </MemoryRouter>
+      ), node)
+      expect(node.textContent).toEqual(expect.stringMatching(location.pathname))
+    })
+  })
 })
