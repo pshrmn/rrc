@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import ConfigRoute from './ConfigRoute'
+import Route from 'react-router/Route'
 import matchPath from 'react-router/matchPath'
 
 class ConfigSwitch extends React.Component {
@@ -73,10 +73,7 @@ class ConfigSwitch extends React.Component {
       route = routes[r]
       match = matchPath(location.pathname, route.path, route)
     }
-    return match ? <ConfigRoute route={{
-      ...route,
-      computedMatch: match
-    }} /> : null
+    return match ? <Route {...route} computedMatch={match} /> : null
   }
 }
 
