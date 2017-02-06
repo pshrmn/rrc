@@ -4,3 +4,5 @@
 * [whenActive](whenActive.md)
 * [OnUpdate](OnUpdate.md)
 * [Status](Status.md)
+* [ConfigRoute](ConfigRoute.md)
+* [ConfigSwitch](ConfigSwitch.md)
