@@ -1,6 +1,6 @@
 import React from 'react';
-import withScroll from '../components/withScroll'
-import ScrollIntoView from '../components/ScrollIntoView'
+import withScroll from '../withScroll'
+import ScrollIntoView from '../ScrollIntoView'
 
 describe('withScroll', () => {
   describe('wraps a component in a <ScrollIntoView>', () => {

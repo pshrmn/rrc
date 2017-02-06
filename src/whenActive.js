@@ -1,6 +1,6 @@
 import React from 'react'
 import { matchPath, Route } from 'react-router'
-import { getDisplayName } from '../helpers'
+import { getDisplayName } from './helpers'
 
 const whenActive = (options = {}) => {
   const {

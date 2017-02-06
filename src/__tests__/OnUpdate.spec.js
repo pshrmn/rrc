@@ -2,7 +2,7 @@ import React from 'react'
 import { render, unmountComponentAtNode } from 'react-dom'
 import { Router } from 'react-router'
 import { createMemoryHistory } from 'history'
-import OnUpdate from '../components/OnUpdate'
+import OnUpdate from '../OnUpdate'
 
 describe('OnUpdate', () => {
   const div = document.createElement('div')

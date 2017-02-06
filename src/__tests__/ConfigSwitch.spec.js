@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, unmountComponentAtNode } from 'react-dom'
 import { MemoryRouter } from 'react-router'
-import ConfigSwitch from '../components/ConfigSwitch'
+import ConfigSwitch from '../ConfigSwitch'
 
 describe('ConfigSwitch', () => {
   const node = document.createElement('div')

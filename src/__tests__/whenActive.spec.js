@@ -4,7 +4,7 @@ import { Simulate } from 'react-addons-test-utils'
 import { createMemoryHistory } from 'history'
 import { MemoryRouter, Router, matchPath } from 'react-router'
 import { Link } from 'react-router-dom'
-import whenActive from '../components/whenActive'
+import whenActive from '../whenActive'
 
 describe('whenActive', () => {
   const div = document.createElement('div')
