@@ -3,8 +3,6 @@ import { render, unmountComponentAtNode } from 'react-dom'
 import { MemoryRouter } from 'react-router'
 import ConfigRoute from '../components/ConfigRoute'
 
-console.log(Object.keys(expect))
-
 describe('ConfigRoute', () => {
   const node = document.createElement('div')
 
