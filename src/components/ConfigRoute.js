@@ -1,10 +1,6 @@
 import React from 'react'
 import Route from 'react-router/Route'
 
-class ConfigRoute extends React.Component {
-  render() {
-    return <Route {...this.props.route} />
-  }
-}
+const ConfigRoute = ({ route }) => <Route {...route} />
 
 export default ConfigRoute
