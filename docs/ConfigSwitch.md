@@ -12,7 +12,7 @@ The `<ConfigSwitch>` component is an alternative approach to React Router's `<Sw
 
 #### `routes`
 
-An array of route configuration objects (see [<ConfigRoute>](ConfigRoute.md)). The array will be iterated over and only the first object that matches the location will be rendered. If no route matches the `location`, then `null` will be rendered.
+An array of route configuration objects (see [`<ConfigRoute>`](ConfigRoute.md)). The array will be iterated over and only the first object that matches the location will be rendered. If no route matches the `location`, then `null` will be rendered.
 
 #### `location`
 
