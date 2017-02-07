@@ -1,5 +1,7 @@
 ## RRC = React Router Components
 
+[![Travis][build-badge]][build]
+
 This module contains a number of components that can be used in conjuction with [React Router v4](https://github.com/ReactTraining/react-router/tree/v4).
 
 #### Note
