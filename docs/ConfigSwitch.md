@@ -1,8 +1,10 @@
-# ConfigSwitch
+# ConfigSwitch [\<\>](https://github.com/pshrmn/rrc/blob/master/src/ConfigSwitch.js#L5 "Source code")
 
 The `<ConfigSwitch>` component is an alternative approach to React Router's `<Switch>` component. Instead of providing `<Route>` components as children of the `<Switch>` component, `<ConfigSwitch>` takes an arry of route configuration objects through its `routes` prop.
 
 ```js
+import { ConfigSwitch } from 'rrc'
+
 <ConfigSwitch routes={[
   { path: '/', exact: true, component: Home },
   { path: '/about', component: About },
@@ -21,6 +23,9 @@ The array will be iterated over and only the first object that matches the locat
 A `location` object can be passed to a `<ConfigSwitch>`. This will take precedence over the actual `location`. This is useful with animation to ensure that the `<ConfigSwitch>` that is leaving is rendering based on the previous location.
 
 ```js
+// ConfigSwitch can always be renamed on import :)
+import Switch from 'rrc/ConfigSwitch'
+
 <CSSTransitionGroup>
   <Switch
     key={location.pathname}

@@ -1,4 +1,4 @@
-# whenActive
+# whenActive [\<\>](https://github.com/pshrmn/rrc/blob/master/src/whenActive.js#L5 "Source code")
 
 Using the `whenActive` higher-order component, you can create a component that can have a class or styles injected into it when its location-specifying prop matches the current location's `pathname`.
 

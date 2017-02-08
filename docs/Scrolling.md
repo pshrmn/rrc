@@ -27,7 +27,7 @@ const FAQ = (props) => (
 )
 ```
 
-## `<ScrollIntoView>`
+## `<ScrollIntoView>` [\<\>](https://github.com/pshrmn/rrc/blob/master/src/ScrollIntoView.js#L3 "Source code")
 
 ### Usage
 
@@ -79,7 +79,7 @@ const PageTwo = (props) => (
 )
 ```
 
-## `withScroll`
+## `withScroll` [\<\>](https://github.com/pshrmn/rrc/blob/master/src/withScroll.js#L5 "Source code")
 
 The `withScroll` function provides a higher order component to wrap your view component. It can take two options, which help it control the props passed to the `<ScrollIntoView>` component.
 

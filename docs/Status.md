@@ -1,4 +1,4 @@
-# Status
+# Status [\<\>](https://github.com/pshrmn/rrc/blob/master/src/Status.js#L3 "Source code")
 
 The `<Status>` component modifies the `context` object that is passed to a `<StaticRouter>`, setting the `status` property using the `code` prop.
 
@@ -7,6 +7,8 @@ This component does not render anything and will have no effect when rendered in
 ### Example
 
 ```js
+import { Status } from 'rrc'
+
 const App = () => (
   <Switch>
     <Route exact path='/' component={Home} />

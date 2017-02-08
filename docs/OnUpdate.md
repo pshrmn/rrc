@@ -1,4 +1,4 @@
-# OnUpdate
+# OnUpdate [\<\>](https://github.com/pshrmn/rrc/blob/master/src/OnUpdate.js#L3 "Source code")
 
 The `<OnUpdate>` component will be called whenever the location changes.
 
@@ -9,6 +9,8 @@ The `<OnUpdate>` component will be called whenever the location changes.
 A function to be called whenever the location changes. The function will be passed the new location object.
 
 ```js
+import { OnUpdate } from 'rrc'
+
 <OnUpdate
   call={(location) => {
     analyticsTool.log(location.pathname)
