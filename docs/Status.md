@@ -46,7 +46,7 @@ function handleRequest(req, res) {
 }
 ```
 
-On the client side, when rendering `<App>` inside of a `<BrowserRouter>` or `<HashRouter>`, the `<Status>` will have no effet.
+On the client side, when rendering `<App>` inside of a `<BrowserRouter>` or `<HashRouter>`, the `<Status>` will have no effect.
 
 ```js
 // client
