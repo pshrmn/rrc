@@ -10,13 +10,16 @@ module.exports = {
   },
   externals: {
     react: {
-      global: 'React',
+      root: 'React',
       commonjs2: 'react',
       commonjs: 'react',
       amd: 'react'
     },
     'react-router': {
-      global: 'ReactRouter'
+      root: 'ReactRouter',
+      commonjs2: 'react-router',
+      commonjs: 'react-router',
+      amd: 'react-router'
     }
   },
   module: {
