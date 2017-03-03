@@ -1,9 +1,15 @@
-import React from 'react'
+import React, { Component, PropTypes } from 'react'
 
-export default class ScrollIntoView extends React.Component {
+export default class ScrollIntoView extends Component {
 
   static defaultProps = {
     alignToTop: true
+  }
+
+  static propTypes = {
+    alignToTop: PropTypes.bool,
+    children: PropTypes.node,
+    id: PropTypes.string
   }
 
   componentDidMount() {

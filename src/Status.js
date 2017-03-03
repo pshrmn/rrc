@@ -2,7 +2,7 @@ import { Component, PropTypes } from 'react'
 
 class Status extends Component {
   static contextTypes = {
-    router: PropTypes.shape({
+    history: PropTypes.shape({
       staticContext: PropTypes.object
     }).isRequired
   }
@@ -12,7 +12,7 @@ class Status extends Component {
   }
 
   componentWillMount() {
-    const { staticContext } = this.context.router
+    const { staticContext } = this.context.history
     if (staticContext) {
       staticContext.status = this.props.code
     }

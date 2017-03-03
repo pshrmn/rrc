@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { Component, PropTypes } from 'react'
 
-class OnUpdate extends React.Component {
+class OnUpdate extends Component {
   static contextTypes = {
-    router: React.PropTypes.shape({
-      listen: React.PropTypes.func.isRequired
-    }).isRequired
+    route: PropTypes.shape({
+      location: PropTypes.object.isRequired
+    })
   }
 
   static propTypes = {
@@ -12,31 +12,24 @@ class OnUpdate extends React.Component {
     immediate: React.PropTypes.bool
   }
 
-  constructor(props) {
-    super(props)
-    this.call = this.call.bind(this)
+  call() {
+    this.props.call(this.context.route.location)
+  }
+
+  componentDidMount() {
+    if (this.props.immediate) {
+      this.call()
+    }
+  }
+
+  componentDidUpdate() {
+    this.call()
   }
 
   render() {
     return null
   }
 
-  componentDidMount() {
-    this.unlisten = this.context.router.listen(this.call)
-    if (this.props.immediate) {
-      this.call()
-    }
-  }
-
-  call() {
-    this.props.call(this.context.router.location)
-  }
-
-  comonentWillUnmount() {
-    if (this.unlisten) {
-      this.unlisten()
-    }
-  }
 }
 
 export default OnUpdate
