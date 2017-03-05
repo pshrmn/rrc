@@ -1,6 +1,6 @@
 {
   "name": "rrc",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "React Router v4 helper components",
   "main": "lib/index.js",
   "module": "es/index.js",
