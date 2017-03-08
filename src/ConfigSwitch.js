@@ -2,7 +2,8 @@ import React, { PropTypes } from 'react'
 import Route from 'react-router/Route'
 import matchPath from 'react-router/matchPath'
 
-const ConfigSwitch= ({ routes, location }, { route }) => {
+const ConfigSwitch= ({ routes, location }, { router }) => {
+  const { route } = router
   const currentLocation = location || route.location
 
   let match = null
@@ -28,8 +29,10 @@ ConfigSwitch.propTypes = {
 }
 
 ConfigSwitch.contextTypes = {
-  route: PropTypes.shape({
-    location: PropTypes.object.isRequired
+  router: PropTypes.shape({
+    route: PropTypes.shape({
+      location: PropTypes.object.isRequired
+    }).isRequired
   }).isRequired
 }
 

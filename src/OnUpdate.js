@@ -2,12 +2,14 @@ import React, { Component, PropTypes } from 'react'
 
 class OnUpdate extends Component {
   static contextTypes = {
-    history: PropTypes.shape({
-      listen: PropTypes.func.isRequired
-    }).isRequired,
-    route: PropTypes.shape({
-      location: PropTypes.object.isRequired
-    })
+    router: PropTypes.shape({
+      history: PropTypes.shape({
+        listen: PropTypes.func.isRequired
+      }).isRequired,
+      route: PropTypes.shape({
+        location: PropTypes.object.isRequired
+      })
+    }).isRequired
   }
 
   static propTypes = {
@@ -16,11 +18,11 @@ class OnUpdate extends Component {
   }
 
   call = () => {
-    this.props.call(this.context.route.location)
+    this.props.call(this.context.router.route.location)
   }
 
   componentDidMount() {
-    this.unlisten = this.context.history.listen(this.call)
+    this.unlisten = this.context.router.history.listen(this.call)
 
     if (this.props.immediate) {
       this.call()

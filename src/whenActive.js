@@ -16,12 +16,13 @@ const whenActive = (options = {}) => {
   } = options
 
   return (component) => {
-    const WhenActive = (props, { route }) => {
+    const WhenActive = (props, { router }) => {
       const {
         className = '',
         style = {},
         ...rest
       } = props
+      const { route } = router
       const location = route.location
       const active = getIsActive(location.pathname, props)
       
@@ -33,8 +34,10 @@ const whenActive = (options = {}) => {
     }
 
     WhenActive.contextTypes = {
-      route: PropTypes.shape({
-        location: PropTypes.object.isRequired
+      router: PropTypes.shape({
+        route: PropTypes.shape({
+          location: PropTypes.object.isRequired
+        }).isRequired
       }).isRequired
     }
 
