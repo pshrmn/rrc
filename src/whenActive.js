@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import { matchPath } from 'react-router'
-import { getDisplayName } from './helpers'
+import getDisplayName from './helpers/getDisplayName'
 
 const whenActive = (options = {}) => {
   const {

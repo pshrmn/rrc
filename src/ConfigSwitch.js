@@ -1,24 +1,13 @@
 import React, { PropTypes } from 'react'
 import Route from 'react-router/Route'
-import matchPath from 'react-router/matchPath'
+import matchRoutes from './helpers/matchRoutes'
 
 const ConfigSwitch= ({ routes, location }, { router }) => {
-  const { route } = router
-  const currentLocation = location || route.location
+  const { route:parent } = router
+  const currentLocation = location || parent.location
+  const { match, route } = matchRoutes(routes, currentLocation.pathname, parent)
 
-  let match = null
-  let currentRoute = null
-  for (let r=0; match === null && r < routes.length; r++) {
-    currentRoute = routes[r]
-    match = matchPath(currentLocation.pathname, currentRoute, route)
-  }
-  return match
-    ? <Route
-        {...currentRoute}
-        location={currentLocation}
-        computedMatch={match}
-      />
-    : null
+  return match ? <Route {...route} location={currentLocation} computedMatch={match}/> : null
 }
 
 ConfigSwitch.propTypes = {
