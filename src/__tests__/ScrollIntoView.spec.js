@@ -1,6 +1,7 @@
 import React from 'react';
-import { render, unmountComponentAtNode } from 'react-dom'
-import renderer from 'react-test-renderer'
+import { mount } from 'enzyme'
+import createContext from './testContext'
+
 import ScrollIntoView from '../ScrollIntoView'
 
 jest.useFakeTimers()
@@ -10,21 +11,8 @@ const mockScroll = jest.fn()
 Element.prototype.scrollIntoView = mockScroll
 
 describe('<ScrollIntoView>', () => {
-
   describe('Element.scrollIntoView calls', () => {
-
     let div
-    const id = 'target'
-    const hash = `#${id}`
-
-    function renderScroll(scroll, targetID) {
-      render((
-        <div>
-          { scroll }
-          <div id={targetID || id}></div>
-        </div>
-      ), div)
-    }
 
     beforeEach(() => {
       div = document.createElement('div')
@@ -33,57 +21,98 @@ describe('<ScrollIntoView>', () => {
 
     afterEach(() => {
       mockScroll.mockReset()
-      unmountComponentAtNode(div)
       document.body.removeChild(div)
     })
 
     it('does not call Element.scrollIntoView if there is no id prop', () => {
-      renderScroll(<ScrollIntoView />)
+      const context = createContext({ location: { pathname: '/north-america' }})
+
+      const wrapper = mount((
+        <section>
+          <ScrollIntoView />
+          <div id='usa'>U.S.A.</div>
+        </section>
+      ), { context, attachTo: div })
+
       expect(mockScroll.mock.calls.length).toBe(0)
     })
 
     it('does not call Element.scrollIntOView if no element matches the id', () => {
-      renderScroll(<ScrollIntoView id={hash} />, '#other')
+      const context = createContext({ location: { pathname: '/south-america' }})
+
+      const wrapper = mount((
+        <section>
+          <ScrollIntoView id='#argentina'/>
+          <div id='brazil'>Brazil</div>
+        </section>
+      ), { context, attachTo: div })
+
+
       expect(mockScroll.mock.calls.length).toBe(0)
     })
 
     it('calls Element.scrollIntoView when mounting', () => {
-      renderScroll(<ScrollIntoView id={hash}/>)
+      const context = createContext({ location: { pathname: '/asia' }})
+
+      const wrapper = mount((
+        <section>
+          <ScrollIntoView id='#china'/>
+          <div id='china'>China</div>
+        </section>
+      ), { context, attachTo: div })
+
       jest.runAllTimers()
       expect(mockScroll.mock.calls.length).toBe(1)
     })
 
     it('calls Element.scrollIntoView when updating', () => {
+      const context = createContext({ location: { pathname: '/africa' }})
+
       // mount
-      renderScroll(<ScrollIntoView id={hash}/>)
+      const wrapper = mount((
+        <ScrollIntoView id='#nigeria'>
+          <div id='nigeria'>Nigeria</div>
+        </ScrollIntoView>
+      ), { context, attachTo: div })
+      
       jest.runAllTimers()
       expect(mockScroll.mock.calls.length).toBe(1)
+
       // update
-      renderScroll(<ScrollIntoView id={hash}/>)
+      wrapper.update()
       jest.runAllTimers()
       expect(mockScroll.mock.calls.length).toBe(2)
     })
 
     it('calls Element.scrollIntoView(false) when alignToTop=false', () => {
-      renderScroll(<ScrollIntoView id={hash} alignToTop={false} />)
+      const context = createContext({ location: { pathname: '/europe' }})
+
+      const wrapper = mount((
+        <section>
+          <ScrollIntoView id='#finland' alignToTop={false} />
+          <div id='finland'>Finland</div>
+        </section>
+      ), { context, attachTo: div })
+
+
       jest.runAllTimers()
       expect(mockScroll.mock.calls.length).toBe(1)
-      // first call, first value
       expect(mockScroll.mock.calls[0][0]).toBe(false)
     })
   })
 
   describe('component', () => {
     it('renders children if provided', () => {
-      const TEXT = 'TEXT'
-      const Component = renderer.create(
-        <ScrollIntoView id='#test'>
-          <div id='test'>{TEXT}</div>
+      const context = createContext({ location: { pathname: '/australia' }})
+      const text = 'Australia'
+      const wrapper = mount((
+        <ScrollIntoView id='#australia'>
+          <div id='australia'>{text}</div>
         </ScrollIntoView>
-      )
-      const tree = Component.toJSON()
-      expect(tree.type).toEqual('div')
-      expect(tree.children[0]).toEqual(TEXT)
+      ), { context, attachTo: div })
+
+      const div = wrapper.find('#australia')
+      expect(div.text()).toEqual(text)
     })  
   })
 })  

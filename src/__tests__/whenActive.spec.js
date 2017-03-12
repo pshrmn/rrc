@@ -1,67 +1,63 @@
 import React from 'react'
-import { render, unmountComponentAtNode } from 'react-dom'
-import { Simulate } from 'react-addons-test-utils'
-import { createMemoryHistory } from 'history'
-import { MemoryRouter, Router, matchPath } from 'react-router'
+import { mount } from 'enzyme'
+import createContext from './testContext'
+
+import { matchPath } from 'react-router'
 import { Link } from 'react-router-dom'
 import whenActive from '../whenActive'
 
 describe('whenActive', () => {
-  const div = document.createElement('div')
-
-  afterEach(() => {
-    unmountComponentAtNode(div)
-  })
 
   describe('className', () => {
     it('adds the active className when the location matches', () => {
+      const context = createContext({ location: { pathname: '/panda' }})
       const ACTIVE_CLASSNAME = 'ACTIVE_CLASSNAME'
       const ActiveLink = whenActive({
         className: ACTIVE_CLASSNAME
       })(Link)
 
-      render(
-        <MemoryRouter initialEntries={[ '/foo' ]} initialIndex={0}>
-          <ActiveLink to='/foo'>Active Link</ActiveLink>
-        </MemoryRouter>
-      , div)
-      const link = div.getElementsByTagName('a')[0]
-      expect(link.classList).toContain(ACTIVE_CLASSNAME)
+      const wrapper = mount(<ActiveLink to='/panda'>Link</ActiveLink>, { context })
+
+      const link = wrapper.find('a')
+      expect(link.props().className).toEqual(
+        expect.stringContaining(ACTIVE_CLASSNAME)
+      )
     })
 
     it('adds the active className for partial matches', () => {
+      const context = createContext({ location: { pathname: '/lions/tigers' }})
       const ACTIVE_CLASSNAME = 'ACTIVE_CLASSNAME'
       const ActiveLink = whenActive({
         className: ACTIVE_CLASSNAME
       })(Link)
 
-      render(
-        <MemoryRouter initialEntries={[ '/foo/bar' ]} initialIndex={0}>
-          <ActiveLink to='/foo'>Active Link</ActiveLink>
-        </MemoryRouter>
-      , div)
-      const link = div.getElementsByTagName('a')[0]
-      expect(link.classList).toContain(ACTIVE_CLASSNAME)
+      const wrapper = mount(<ActiveLink to='/lions'>Link</ActiveLink>, { context })
+
+      const link = wrapper.find('a')
+      expect(link.props().className).toEqual(
+        expect.stringContaining(ACTIVE_CLASSNAME)
+      )
     })
 
     it('does not include active className when location does not match', () => {
+      const context = createContext({ location: { pathname: '/bears' }})
       const ACTIVE_CLASSNAME = 'ACTIVE_CLASSNAME'
       const ActiveLink = whenActive({
         className: ACTIVE_CLASSNAME
       })(Link)
 
-      render(
-        <MemoryRouter initialEntries={[ '/foo' ]} initialIndex={0}>
-          <ActiveLink to='/baz'>Active Link</ActiveLink>
-        </MemoryRouter>
-      , div)
-      const link = div.getElementsByTagName('a')[0]
-      expect(link.classList).not.toContain(ACTIVE_CLASSNAME)
+      const wrapper = mount(<ActiveLink to='/ohmy'>Link</ActiveLink>, { context })
+
+      const link = wrapper.find('a')
+      expect(link.props().className).not.toEqual(
+        expect.stringContaining(ACTIVE_CLASSNAME)
+      )
     })
   })
 
   describe('style', () => {
     it('adds the active style when the location matches', () => {
+      const context = createContext({ location: { pathname: '/koala' }})
       const ACTIVE_COLOR = 'red'
       const ActiveLink = whenActive({
         style: {
@@ -69,16 +65,14 @@ describe('whenActive', () => {
         }
       })(Link)
 
-      render(
-        <MemoryRouter initialEntries={[ '/foo' ]} initialIndex={0}>
-          <ActiveLink to='/foo'>Active Link</ActiveLink>
-        </MemoryRouter>
-      , div)
-      const link = div.getElementsByTagName('a')[0]
-      expect(link.style.color).toBe(ACTIVE_COLOR)
+      const wrapper = mount(<ActiveLink to='/koala'>Link</ActiveLink>, { context })
+
+      const link = wrapper.find('a')
+      expect(link.props().style.color).toEqual(ACTIVE_COLOR)
     })
 
     it('adds the active style for partial matches', () => {
+      const context = createContext({ location: { pathname: '/spider/tarantula' }})
       const ACTIVE_COLOR = 'red'
       const ActiveLink = whenActive({
         style: {
@@ -86,16 +80,14 @@ describe('whenActive', () => {
         }
       })(Link)
 
-      render(
-        <MemoryRouter initialEntries={[ '/foo/bar' ]} initialIndex={0}>
-          <ActiveLink to='/foo'>Active Link</ActiveLink>
-        </MemoryRouter>
-      , div)
-      const link = div.getElementsByTagName('a')[0]
-      expect(link.style.color).toBe(ACTIVE_COLOR)
+      const wrapper = mount(<ActiveLink to='/spider'>Link</ActiveLink>, { context })
+
+      const link = wrapper.find('a')
+      expect(link.props().style.color).toEqual(ACTIVE_COLOR)
     })
 
-    it('does not include the active style for partial matches', () => {
+    it('does not include the active style when the location does not match', () => {
+      const context = createContext({ location: { pathname: '/gorilla' }})
       const ACTIVE_COLOR = 'red'
       const INACTIVE_COLOR = 'blue'
       const ActiveLink = whenActive({
@@ -104,187 +96,161 @@ describe('whenActive', () => {
         }
       })(Link)
 
-      render(
-        <MemoryRouter initialEntries={[ '/foo' ]} initialIndex={0}>
-          <ActiveLink to='/baz' style={{ color: INACTIVE_COLOR }}>Active Link</ActiveLink>
-        </MemoryRouter>
-      , div)
-      const link = div.getElementsByTagName('a')[0]
-      expect(link.style.color).toBe(INACTIVE_COLOR)
+      const wrapper = mount((
+        <ActiveLink
+          to='/orangutan'
+          style={{ color: INACTIVE_COLOR }}
+        >
+          Link
+        </ActiveLink>
+      ), { context })
+
+      const link = wrapper.find('a')
+      expect(link.props().style.color).toEqual(INACTIVE_COLOR)
     })
   })
 
   describe('exact', () => {
     it('adds active props when the location matches exactly', () => {
+      const context = createContext({ location: { pathname: '/lizard/iguana' }})
       const ACTIVE_CLASSNAME = 'ACTIVE_CLASSNAME'
       const ActiveLink = whenActive({
-        exact: true,
-        className: ACTIVE_CLASSNAME
+        className: ACTIVE_CLASSNAME,
+        exact: true
       })(Link)
 
-      render(
-        <MemoryRouter initialEntries={[ '/foo/bar' ]} initialIndex={0}>
-          <ActiveLink to='/foo/bar'>Active Link</ActiveLink>
-        </MemoryRouter>
-      , div)
-      const link = div.getElementsByTagName('a')[0]
-      expect(link.classList).toContain(ACTIVE_CLASSNAME)
+      const wrapper = mount(<ActiveLink to='/lizard/iguana'>Link</ActiveLink>, { context })
+
+      const link = wrapper.find('a')
+      expect(link.props().className).toEqual(
+        expect.stringContaining(ACTIVE_CLASSNAME)
+      )
     })
 
     it('does not include active props for non-exact location matches', () => {
+      const context = createContext({ location: { pathname: '/lizard/chameleon' }})
       const ACTIVE_CLASSNAME = 'ACTIVE_CLASSNAME'
       const ActiveLink = whenActive({
-        exact: true,
-        className: ACTIVE_CLASSNAME
+        className: ACTIVE_CLASSNAME,
+        exact: true
       })(Link)
 
-      render(
-        <MemoryRouter initialEntries={[ '/foo/bar' ]} initialIndex={0}>
-          <ActiveLink to='/foo'>Active Link</ActiveLink>
-        </MemoryRouter>
-      , div)
-      const link = div.getElementsByTagName('a')[0]
-      expect(link.classList).not.toContain(ACTIVE_CLASSNAME)
+      const wrapper = mount(<ActiveLink to='/lizard'>Link</ActiveLink>, { context })
+
+      const link = wrapper.find('a')
+      expect(link.props().className).not.toEqual(
+        expect.stringContaining(ACTIVE_CLASSNAME)
+      )
     })
   })
 
   describe('strict', () => {
     it('matches location strictly when true', () => {
+      const context = createContext({ location: { pathname: '/giraffe' }})
       const ACTIVE_CLASSNAME = 'ACTIVE_CLASSNAME'
       const ActiveLink = whenActive({
-        strict: true,
-        className: ACTIVE_CLASSNAME
+        className: ACTIVE_CLASSNAME,
+        strict: true
       })(Link)
 
-      render(
-        <MemoryRouter initialEntries={[ '/food' ]} initialIndex={0}>
-          <ActiveLink to='/food/'>Active Link</ActiveLink>
-        </MemoryRouter>
-      , div)
+      const wrapper = mount(<ActiveLink to='/giraffe/'>Link</ActiveLink>, { context })
 
-      const link = div.getElementsByTagName('a')[0]
-      expect(link.classList).not.toContain(ACTIVE_CLASSNAME)
+      const link = wrapper.find('a')
+      expect(link.props().className).not.toEqual(
+        expect.stringContaining(ACTIVE_CLASSNAME)
+      )
     })
 
     it('does not match location strictly when false (default)', () => {
+      const context = createContext({ location: { pathname: '/hippo' }})
       const ACTIVE_CLASSNAME = 'ACTIVE_CLASSNAME'
       const ActiveLink = whenActive({
-        strict: false,
         className: ACTIVE_CLASSNAME
       })(Link)
 
-      render(
-        <MemoryRouter initialEntries={[ '/food' ]} initialIndex={0}>
-          <ActiveLink to='/food/'>Active Link</ActiveLink>
-        </MemoryRouter>
-      , div)
-      const link = div.getElementsByTagName('a')[0]
-      expect(link.classList).toContain(ACTIVE_CLASSNAME)
+      const wrapper = mount(<ActiveLink to='/hippo/'>Link</ActiveLink>, { context })
+
+      const link = wrapper.find('a')
+      expect(link.props().className).toEqual(
+        expect.stringContaining(ACTIVE_CLASSNAME)
+      )
     })
   })
 
 
   describe('pathProp', () => {
-
     const LocationComponent = (props) => (
       <p className={props.className}>{props.children}</p>
     )
 
     it('defaults to "to"', () => {
+      const context = createContext({ location: { pathname: '/rhino' }})
       const ACTIVE_CLASSNAME = 'ACTIVE_CLASSNAME'
       const ActiveLocation = whenActive({
         className: ACTIVE_CLASSNAME
       })(LocationComponent)
 
-      render(
-        <MemoryRouter initialEntries={[ '/foo' ]} initialIndex={0}>
-          <ActiveLocation to='/foo'>Active Location</ActiveLocation>
-        </MemoryRouter>
-      , div)
-      const p = div.getElementsByTagName('p')[0]
-      expect(p.classList).toContain(ACTIVE_CLASSNAME)
+      const wrapper = mount(<ActiveLocation to='/rhino'>Link</ActiveLocation>, { context })
+
+      const link = wrapper.find(LocationComponent)
+      expect(link.props().className).toEqual(
+        expect.stringContaining(ACTIVE_CLASSNAME)
+      )
     })
 
     it('gets location from pathProp if provided', () => {
+      const context = createContext({ location: { pathname: '/buffalo' }})
       const ACTIVE_CLASSNAME = 'ACTIVE_CLASSNAME'
       const ActiveLocation = whenActive({
         className: ACTIVE_CLASSNAME,
         pathProp: 'loc'
       })(LocationComponent)
 
-      render(
-        <MemoryRouter initialEntries={[ '/foo' ]} initialIndex={0}>
-          <ActiveLocation loc='/foo'>Active Location</ActiveLocation>
-        </MemoryRouter>
-      , div)
-      const p = div.getElementsByTagName('p')[0]
-      expect(p.classList).toContain(ACTIVE_CLASSNAME)
+      const wrapper = mount(<ActiveLocation loc='/buffalo'>Link</ActiveLocation>, { context })
+
+      const link = wrapper.find(LocationComponent)
+      expect(link.props().className).toEqual(
+        expect.stringContaining(ACTIVE_CLASSNAME)
+      )
     })
-
-    describe('isActive', () => {
-      it('uses custom function if provided', () => {
-        const ACTIVE_CLASSNAME = 'ACTIVE_CLASSNAME'
-        const ActiveLocation = whenActive({
-          className: ACTIVE_CLASSNAME,
-          isActive: (pathname, props) => {
-            let active = false
-            const exact = true
-            const locations = props['locs']
-            for (let i=0; i<locations.length; i++){
-              const match = matchPath(pathname, locations[i], { exact })
-              if (!match) {
-                continue
-              }
-              if (!exact) {
-                return true
-              } else {
-                if (match.isExact) {
-                  return true
-                }
-              }
-            }
-            return active
-          }
-        })(LocationComponent)
-
-        render(
-          <MemoryRouter initialEntries={[ '/foo' ]} initialIndex={0}>
-            <ActiveLocation locs={['/bar', '/foo']}>Active Location</ActiveLocation>
-          </MemoryRouter>
-        , div)
-        const p = div.getElementsByTagName('p')[0]
-        expect(p.classList).toContain(ACTIVE_CLASSNAME)  
-      })
-    })
-
   })
 
-  describe('namespace collisions', () => {
-    it('does not happen', () => {
-      const ACTIVE_CLASSNAME = 'ACTIVE_CLASSNAME'
-      const ActiveLink = whenActive({
-        className: ACTIVE_CLASSNAME
-      })(Link)
-      const history = createMemoryHistory({
-        initialEntries: ['/foo']
-      })
-      history.replace = jest.fn()
-      render(
-        <Router history={history}>
-          <ActiveLink id='link' replace to='/foo'>Active Link</ActiveLink>
-        </Router>
-      , div)
+  describe('isActive', () => {
+    const LocationComponent = (props) => (
+      <p className={props.className}>{props.children}</p>
+    )
 
-      Simulate.click(div.querySelector('#link'), {
-        defaultPrevented: false,
-        preventDefault() { this.defaultPrevented = true },
-        metaKey: null,
-        altKey: null,
-        ctrlKey: null,
-        shiftKey: null,
-        button: 0
-      })
-      expect(history.replace.mock.calls.length).toBe(1)
+    it('uses custom function if provided', () => {
+      const context = createContext({ location: { pathname: '/zebra' }})
+      const ACTIVE_CLASSNAME = 'ACTIVE_CLASSNAME'
+      const ActiveLocation = whenActive({
+        className: ACTIVE_CLASSNAME,
+        isActive: (pathname, props) => {
+          let active = false
+          const exact = true
+          const locations = props['locs']
+          for (let i=0; i<locations.length; i++){
+            const match = matchPath(pathname, locations[i], { exact })
+            if (!match) {
+              continue
+            }
+
+            if (!exact || (exact && match.isExact)) {
+              return true
+            }
+          }
+          return active
+        }
+      })(LocationComponent)
+
+      const wrapper = mount((
+        <ActiveLocation locs={['/gazelle', '/zebra']}>Active Location</ActiveLocation>
+      ), { context })
+
+      const link = wrapper.find(LocationComponent)
+      expect(link.props().className).toEqual(
+        expect.stringContaining(ACTIVE_CLASSNAME)
+      )
     })
   })
 })

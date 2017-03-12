@@ -4,11 +4,9 @@ class OnUpdate extends Component {
   static contextTypes = {
     router: PropTypes.shape({
       history: PropTypes.shape({
-        listen: PropTypes.func.isRequired
-      }).isRequired,
-      route: PropTypes.shape({
+        listen: PropTypes.func.isRequired,
         location: PropTypes.object.isRequired
-      })
+      }).isRequired
     }).isRequired
   }
 
@@ -17,15 +15,16 @@ class OnUpdate extends Component {
     immediate: React.PropTypes.bool
   }
 
-  call = () => {
-    this.props.call(this.context.router.route.location)
+  call = (location) => {
+    this.props.call(location)
   }
 
   componentDidMount() {
-    this.unlisten = this.context.router.history.listen(this.call)
+    const { history } = this.context.router
+    this.unlisten = history.listen(this.call)
 
     if (this.props.immediate) {
-      this.call()
+      this.call(history.location)
     }
   }
 

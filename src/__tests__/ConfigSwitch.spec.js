@@ -1,83 +1,98 @@
 import React from 'react'
-import { render, unmountComponentAtNode } from 'react-dom'
-import { MemoryRouter } from 'react-router'
+import { mount } from 'enzyme'
+import createContext from './testContext'
+
 import ConfigSwitch from '../ConfigSwitch'
 
 describe('ConfigSwitch', () => {
-  const node = document.createElement('div')
 
-  afterEach(() => {
-    unmountComponentAtNode(node)
-  })
+  const contextAt = pathname => createContext({ location: { pathname }})
 
-  describe('match', () => {
+  describe('a route matches', () => {
     it('renders component', () => {
-      const text = 'HERE'
-      const Here = () => <div>{text}</div>
-      render((
-        <MemoryRouter initialEntries={[ '/here']}>
-          <ConfigSwitch routes={[
-            { path: '/here', component: Here }
-          ]} />
-        </MemoryRouter>
-      ), node)
-      expect(node.textContent).toEqual(expect.stringMatching(text))
+      const context = contextAt('/match')
+
+      const Match = () => <div>Match</div>
+      const wrapper = mount((
+        <ConfigSwitch routes={[ { path: '/match', component: Match } ]} />
+      ), { context })
+
+      const foundMatch = wrapper.find(Match)
+      expect(foundMatch.exists()).toBe(true)
     })
 
     it('renders the first matching component', () => {
-      const text = 'HERE'
-      render((
-        <MemoryRouter initialEntries={[ '/here']}>
-          <ConfigSwitch routes={[
-            { path: '/nowhere', render: () => <div>nowhere</div> },
-            { path: '/here', render: () => <div>{text}</div> }
-          ]} />
-        </MemoryRouter>
-      ), node)
-      expect(node.textContent).toEqual(expect.stringMatching(text))
+      const context = contextAt('/two')
+
+      const One = () => <div>One</div>
+      const Two = () => <div>Two</div>
+      const wrapper = mount((
+        <ConfigSwitch routes={[
+          { path: '/one', component: One },
+          { path: '/two', component: Two }
+        ]} />
+      ), { context })
+
+      expect(wrapper.contains(<div>One</div>)).toBe(false)
+      expect(wrapper.contains(<div>Two</div>)).toBe(true)
     })
   })
   
-  describe('no match', () => {
+  describe('no routes match', () => {
     it('renders null', () => {
-      const text = 'HERE'
-      render((
-        <MemoryRouter initialEntries={[ '/nowhere' ]}>
-          <ConfigSwitch routes={[
-            { path: '/here', render: () => <div>{text}</div> },
-            { path: '/there', render: () => <div>{text}</div> }
-          ]} />
-        </MemoryRouter>
-      ), node)
-      expect(node.textContent).not.toEqual(expect.stringMatching(text))
+      const context = contextAt('/none-of-the-above')
+
+      const One = () => <div>One</div>
+      const Two = () => <div>Two</div>
+      const Three = () => <div>Three</div>
+
+      const wrapper = mount((
+        <ConfigSwitch routes={[
+          { path: '/one', component: One },
+          { path: '/two', component: Two },
+          { path: '/three', component: Three }
+        ]} />
+      ), { context })
+
+      expect(wrapper.html()).toEqual(null)
+
     })
   })
 
-  describe('location prop', () => {
+  describe('<ConfigSwitch location>', () => {
     it('matches based on props.location, not actual location', () => {
-      const text = 'HERE'
-      const Here = () => <div>{text}</div>
-      render((
-        <MemoryRouter initialEntries={[ '/nowhere']}>
-          <ConfigSwitch location={{ pathname: '/here' }} routes={[
-            { path: '/here', component: Here }
-          ]} />
-        </MemoryRouter>
-      ), node)
-      expect(node.textContent).toEqual(expect.stringMatching(text))
+      const context = contextAt('/two')
+
+      const One = () => <div>One</div>
+      const Two = () => <div>Two</div>
+      const wrapper = mount((
+        <ConfigSwitch
+          location={{ pathname: '/one' }}
+          routes={[
+            { path: '/one', component: One },
+            { path: '/two', component: Two }
+          ]}
+        />
+      ), { context })
+
+      expect(wrapper.contains(<div>One</div>)).toBe(true)
+      expect(wrapper.contains(<div>Two</div>)).toBe(false)
     })
 
-    it('child routes access props.location', () => {
-      const location = { pathname: '/here' }
-      const Here = ({ location }) => <div>{location.pathname}</div>
-      render((
-        <MemoryRouter initialEntries={[ '/nowhere']}>
-          <ConfigSwitch location={location} routes={[
-            { path: '/here', component: Here }
-          ]} />
-        </MemoryRouter>
-      ), node)
-      expect(node.textContent).toEqual(expect.stringMatching(location.pathname))
+    it('rendered route is given location as a prop', () => {
+      const context = contextAt('/nowhere')
+
+      const switchLocation = { pathname: '/match' }
+      const Match = () => <div>Match</div>
+      const wrapper = mount((
+        <ConfigSwitch
+          location={switchLocation}
+          routes={[ { path: '/match', component: Match } ]}
+        />
+      ), { context })
+
+      const foundMatch = wrapper.find(Match)
+      expect(foundMatch.props().location).toBe(switchLocation)
     })
   })
 })
