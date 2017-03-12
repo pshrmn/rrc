@@ -14,7 +14,7 @@ import { ConfigSwitch } from 'rrc'
 
 #### `routes`
 
-An array of route configuration objects. A route configuration object can take the same properties as a `<Route>` component has as props. You can see what these are in the [`<Route>` documentation](https://reacttraining.com/react-router/#route).
+An array of route configuration objects. A route configuration object can take the same properties as a `<Route>` component has as props. You can see what these are in the [`<Route>` documentation](https://reacttraining.com/react-router/web/api/Route).
 
 The array will be iterated over and only the first object that matches the location will be rendered. If no route matches the `location`, then `null` will be rendered.
 

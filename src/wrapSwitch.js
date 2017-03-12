@@ -4,27 +4,38 @@ import matchPath from 'react-router/matchPath'
 import matchRoutes from './helpers/matchRoutes'
 import getDisplayName from './helpers/getDisplayName'
 
-
 const wrapSwitch = (Wrapper) => {
-
-  const WrappedSwitch = ({ routes, location, ...wrapperProps }, { router }) => {
+  const WrappedSwitch = ({ routes, location, getKey, ...wrapperProps }, { router }) => {
     const { route:parent } = router
-    const currentLocation = location || route.location
-    const { match, route } = getMatchAndRoute(routes, currentLocation.pathname, parent)
+    const loc = location || parent.location
+    const { match, route } = matchRoutes(routes, loc.pathname, parent)
 
-    // TODO: Should the Wrapper wrap just the route or also null?
-    return match
-      ? <Wrapper {...wrapperProps}>
-          <Route {...route} location={currentLocation} computedMatch={match}/>
-        </Wrapper>
-      : null
+    return (
+      <Wrapper {...wrapperProps}>
+        {
+          match
+            ? <Route
+                key={getKey(match, loc)}
+                {...route}
+                location={loc}
+                computedMatch={match}
+              />
+            : null
+        }
+      </Wrapper>
+    )
   }
 
   WrappedSwitch.propTypes = {
     routes: PropTypes.array.isRequired,
     location: PropTypes.shape({
       pathname: PropTypes.string.isRequired
-    })
+    }),
+    getKey: PropTypes.func
+  }
+
+  WrappedSwitch.defaultProps = {
+    getKey: match => match && match.url
   }
 
   WrappedSwitch.contextTypes = {
@@ -35,12 +46,9 @@ const wrapSwitch = (Wrapper) => {
     }).isRequired
   }
 
+  WrappedSwitch.displayName = `wrapSwitch(${getDisplayName(Wrapper)})`
 
   return WrappedSwitch
 }
 
-
-
-
-
-export default ConfigSwitch
+export default wrapSwitch

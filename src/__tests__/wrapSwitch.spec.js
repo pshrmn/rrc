@@ -1,14 +1,57 @@
 import React from 'react'
-import { render, unmountComponentAtNode } from 'react-dom'
-import { MemoryRouter } from 'react-router'
+import { shallow, mount } from 'enzyme'
+import createContext from './testContext'
+import { Route } from 'react-router'
+
 import wrapSwitch from '../wrapSwitch'
 
-describe('wrapSwitch', () => {
+describe('wrapSwitch\'s returned component', () => {
+  const Wrapper = ({ children }) => (
+    <div className='wrapper'>
+      {children}
+    </div>
+  )
 
-  it('creates a <ConfigSwitch>', () => {
+  const WrappedSwitch = wrapSwitch(Wrapper)
 
-    const Wrapper = ({ children }) => {
-      
-    }
+  it('returns element with wrapped type', () => {
+    const context = createContext({ location: { pathname: '/two' }})
+    const wrapper = shallow(<WrappedSwitch routes={[]} />, { context })
+
+    expect(wrapper.type()).toBe(Wrapper)
+  })
+
+  it('has the correct display name', () => {
+    expect(WrappedSwitch.displayName).toEqual(`wrapSwitch(${Wrapper.name})`)
+  })
+
+  it('renders the first matching component', () => {
+    const context = createContext({ location: { pathname: '/two' }})
+
+    const One = () => <div>One</div>
+    const Two = () => <div>Two</div>
+    const wrapper = mount((
+      <WrappedSwitch routes={[
+        { path: '/one', component: One },
+        { path: '/two', component: Two }
+      ]} />
+    ), { context })
+
+    expect(wrapper.contains(<div>One</div>)).toBe(false)
+    expect(wrapper.contains(<div>Two</div>)).toBe(true)    
+  })
+
+  it('sets the correct key on the rendererd <Route>', () => {
+    const context = createContext({ location: { pathname: '/one/two' }})
+
+    const One = () => <div>One</div>
+    const wrapper = mount((
+      <WrappedSwitch routes={[
+        { path: '/one', component: One }
+      ]} />
+    ), { context })
+
+    const renderedRoute = wrapper.find(Route)
+    expect(renderedRoute.key()).toBe('/one')
   })
 })
