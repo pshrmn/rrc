@@ -7,3 +7,4 @@
 * [\<OnUpdate\>](OnUpdate.md)
 * [\<Status\>](Status.md)
 * [\<ConfigSwitch\>](ConfigSwitch.md)
+* [\<WrapSwitch\>](wrapSwitch.md)
