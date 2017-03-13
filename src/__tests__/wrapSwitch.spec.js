@@ -54,4 +54,24 @@ describe('wrapSwitch\'s returned component', () => {
     const renderedRoute = wrapper.find(Route)
     expect(renderedRoute.key()).toBe('/one')
   })
+
+  it('passes extra props to the wrapped component', () => {
+    const context = createContext({ location: { pathname: '/one' }})
+    const extraProps = {
+      one: 1,
+      two: 2
+    }
+
+    const One = () => <div>One</div>
+
+    const wrapper = mount((
+      <WrappedSwitch {...extraProps} routes={[
+        { path: '/one', component: One }
+      ]} />
+    ), { context })
+    const w = wrapper.find(Wrapper)
+    const receivedProps = w.props()
+    expect(receivedProps.one).toEqual(extraProps.one)
+    expect(receivedProps.two).toEqual(extraProps.two)
+  })
 })
