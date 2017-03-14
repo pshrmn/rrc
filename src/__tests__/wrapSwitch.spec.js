@@ -1,6 +1,6 @@
 import React from 'react'
 import { shallow, mount } from 'enzyme'
-import createContext from './testContext'
+import createContext from 'react-router-test-context'
 import { Route } from 'react-router'
 
 import wrapSwitch from '../wrapSwitch'

@@ -1,6 +1,6 @@
 import React from 'react';
 import { mount } from 'enzyme'
-import createContext from './testContext'
+import createContext from 'react-router-test-context'
 
 import ScrollIntoView from '../ScrollIntoView'
 
