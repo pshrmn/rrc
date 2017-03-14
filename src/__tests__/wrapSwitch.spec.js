@@ -74,4 +74,21 @@ describe('wrapSwitch\'s returned component', () => {
     expect(receivedProps.one).toEqual(extraProps.one)
     expect(receivedProps.two).toEqual(extraProps.two)
   })
+
+  it('calls the getKey function if passed as prop', () => {
+    const context = createContext({ location: { pathname: '/one' }})
+
+    const One = () => <div>One</div>
+    const wrapper = mount((
+      <WrappedSwitch
+        getKey={() => 'the-key'}
+        routes={[
+          { path: '/one', component: One }
+        ]}
+      />
+    ), { context })
+
+    const renderedRoute = wrapper.find(Route)
+    expect(renderedRoute.key()).toBe('the-key')
+  })
 })

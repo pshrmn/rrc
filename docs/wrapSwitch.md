@@ -14,9 +14,9 @@ A component that should be rendered around the matched `<Route>`.
 
 The `route` and `location` props are the same props as the [`<ConfigSwitch>`](ConfigSwitch.md)'s `routes` and `location` props.
 
-#### `getKey`
+#### `getKey(match, route, location)`
 
-By default, `match.url` will be used as the key that is passed to the `<Route>` element. If you want to use a different property as the key, you can pass a `getKey` function to the component. The function will be given the `match` and `location` objects and should return a string that will be a unique key.
+By default, `match.url` will be used as the key that is passed to the `<Route>` element. If you want to use a different property as the key, you can pass a `getKey` function to the component. The function will be given the computed `match` object, the matched `route` object, and the `location` that was used to match the route as arguments. The function should return a string that will be a unique key.
 
 #### Additional Props
 

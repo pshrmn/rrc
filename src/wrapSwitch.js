@@ -15,7 +15,7 @@ const wrapSwitch = (Wrapper) => {
         {
           match
             ? <Route
-                key={getKey(match, loc)}
+                key={getKey(match, route, loc)}
                 {...route}
                 location={loc}
                 computedMatch={match}
@@ -35,7 +35,9 @@ const wrapSwitch = (Wrapper) => {
   }
 
   WrappedSwitch.defaultProps = {
-    getKey: match => match && match.url
+    getKey: (match) => {
+      return match && match.url
+    }
   }
 
   WrappedSwitch.contextTypes = {
