@@ -2,6 +2,23 @@
 
 `wrapSwitch` is a higher-order component that lets you provide a component that will be wrapped around the `<Route>` that the switch matches.
 
+### Example
+
+```js
+const CSSTransitionSwitch = wrapSwitch(CSSTransitionGroup)
+
+const App = ({ location }) => (
+  <CSSTransitionSwitch
+    name='fade'
+    location={location}
+    routes={[
+      { path: '/', exact: true, component: Home },
+      { path: '/user', component: User }
+    ]}
+  />
+)
+```
+
 ### Arguments
 
 #### Component
