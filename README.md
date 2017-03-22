@@ -16,3 +16,8 @@ npm install --save rrc
 #### Components
 
 Read about the various components that are provided in the [docs](docs/README.md)
+
+### Related Projects:
+
+* [`qhistory`](https://github.com/pshrmn/qhistory) - Add query object support to location objects
+* [`react-router-test-context`](https://github.com/pshrmn/react-router-test-context) - Simulate the `context.router` object. This can be useful if you are doing shallow testing of a component that needs to access React Router's context variables. Typically, though, you should just render your component inside of a `<MemoryRouter>`.
