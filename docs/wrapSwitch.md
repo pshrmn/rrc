@@ -47,7 +47,7 @@ With React Router's `<Switch>` component, you can animate navigation by placing 
 
 ```js
 const App = ({ location }) => (
-  <CSSTransitionGroup name='fade'>
+  <CSSTransitionGroup transitionName='fade'>
     <Switch key={location.pathname} location={location}>
       <Route exact path='/' component={Home}/>
       <Route path='/user' component={User}/>
@@ -56,7 +56,7 @@ const App = ({ location }) => (
 )
 
 const User = ({ match, location }) => (
-  <CSSTransitionGroup name='slide'>
+  <CSSTransitionGroup transitionName='slide'>
     <Switch key={location.pathname} location={location}>
       <Route exact path={match.url} component={Users}/>
       <Route path={`${match.url}/:username`} component={Profile}/>
@@ -79,7 +79,7 @@ const CSSTransitionSwitch = wrapSwitch(CSSTransitionGroup)
 
 const App = ({ location }) => (
   <CSSTransitionSwitch
-    name='fade'
+    transitionName='fade'
     location={location}
     routes={[
       { path: '/', exact: true, component: Home },
@@ -90,7 +90,7 @@ const App = ({ location }) => (
 
 const User = ({ match, location }) => (
   <CSSTransitionSwitch
-    name='slide'
+    transitionName='slide'
     location={location}
     routes={[
       { path: match.url, exact: true, component: Users },
