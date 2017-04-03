@@ -1,4 +1,4 @@
-## RRC = React Router Components
+## rrc = react router components
 
 [![Travis][build-badge]][build]
 
@@ -12,6 +12,16 @@ This module contains a number of components that can be used in conjuction with 
 ```
 npm install --save rrc
 ```
+
+#### UMD
+
+You can also use the UMD version of `rrc`. This is useful if you are putting together a code snippet.
+
+```html
+<script src="https://unpkg.com/rrc@0.10.0/umd/rrc.min.js"></script>
+```
+
+**Note:** The UMD builds are slightly bloated because they have to include React Router's `<Route>` component and `matchPath` function. This is because if you use the UMD build of `react-router-dom` instead of `react-router`, the `ReactRouter` global will not exist and `rrc`'s imports will fail. The bloat is less than the extra data required to download the `react-router` build and this approach requires one less `<script>` tag.
 
 ### Components
 
