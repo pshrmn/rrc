@@ -21,6 +21,38 @@ describe('ConfigSwitch', () => {
       expect(foundMatch.exists()).toBe(true)
     })
 
+    it('renders route', () => {
+      const context = contextAt('/match')
+
+      const Match = () => <div>Match</div>
+      const wrapper = mount((
+        <ConfigSwitch
+          routes={[
+            { path: '/match', render: props => <Match {...props} /> }
+          ]}
+        />
+      ), { context })
+
+      const foundMatch = wrapper.find(Match)
+      expect(foundMatch.exists()).toBe(true)
+    })
+
+    it('renders children', () => {
+      const context = contextAt('/match')
+
+      const Match = () => <div>Match</div>
+      const wrapper = mount((
+        <ConfigSwitch
+          routes={[
+            { path: '/match', children: props => <Match {...props} /> }
+          ]}
+        />
+      ), { context })
+
+      const foundMatch = wrapper.find(Match)
+      expect(foundMatch.exists()).toBe(true)
+    })
+
     it('renders the first matching component', () => {
       const context = contextAt('/two')
 
@@ -35,6 +67,87 @@ describe('ConfigSwitch', () => {
 
       expect(wrapper.contains(<div>One</div>)).toBe(false)
       expect(wrapper.contains(<div>Two</div>)).toBe(true)
+    })
+
+    describe('inject', () => {
+      it('passes injected props to route.component', () => {
+        const context = contextAt('/component')
+        const inject = {
+          color: 'red',
+          nestedObj: { one: 'two' }
+        }
+        const Match = () => <div>Match</div>
+        const wrapper = mount((
+          <ConfigSwitch
+            routes={[
+              { path: '/component', component: Match, inject }
+            ]}
+          />
+        ), { context })
+
+        const foundMatch = wrapper.find(Match)
+        const props = foundMatch.props()
+        Object.keys(inject).forEach(key => {
+          expect(props[key]).toEqual(inject[key])
+        })
+      })
+
+      it('does not work with render property', () => {
+        const err = console.error
+        console.error = jest.fn()
+
+        const context = contextAt('/render')
+        const inject = {
+          color: 'red',
+          nestedObj: { one: 'two' }
+        }
+        const Match = () => <div>Match</div>
+        const wrapper = mount((
+          <ConfigSwitch
+            routes={[
+              { path: '/render', render: props => <Match {...props} />, inject }
+            ]}
+          />
+        ), { context })
+
+        const foundMatch = wrapper.find(Match)
+        expect(console.error.mock.calls.length).toBe(1)
+
+        const props = foundMatch.props()
+        Object.keys(inject).forEach(key => {
+          expect(props[key]).toBeUndefined()
+        })
+
+        console.error = err
+      })
+
+      it('does not work with children property', () => {
+        const err = console.error
+        console.error = jest.fn()
+
+        const context = contextAt('/children')
+        const inject = {
+          color: 'red',
+          nestedObj: { one: 'two' }
+        }
+        const Match = () => <div>Match</div>
+        const wrapper = mount((
+          <ConfigSwitch
+            routes={[
+              { path: '/children', children: props => <Match {...props} />, inject }
+            ]}
+          />
+        ), { context })
+
+        const foundMatch = wrapper.find(Match)
+        expect(console.error.mock.calls.length).toBe(1)
+        const props = foundMatch.props()
+        Object.keys(inject).forEach(key => {
+          expect(props[key]).toBeUndefined()
+        })
+
+        console.error = err
+      })
     })
   })
   
