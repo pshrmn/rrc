@@ -16,6 +16,12 @@ import { ConfigSwitch } from 'rrc'
 
 An array of route configuration objects. A route configuration object can take the same properties as a `<Route>` component has as props. You can see what these are in the [`<Route>` documentation](https://reacttraining.com/react-router/web/api/Route).
 
+Additionally, a `route` object can be provided an `inject` property. This would be an object whose properties should be passed as props to the `route.component`. **Note:** This can only be used with the `component` property, not `render` or `children`.
+
+```js
+{ path: '/user', component: User, inject: { username: 'Anonymouse', id:  101 }}
+```
+
 The array will be iterated over and only the first object that matches the location will be rendered. If no route matches the `location`, then `null` will be rendered.
 
 #### `location`
