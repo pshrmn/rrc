@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types';
 import Route from 'react-router/Route'
 import matchPath from 'react-router/matchPath'
 import matchRoutes from './helpers/matchRoutes'

@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types';
 
 class OnUpdate extends Component {
   static contextTypes = {
@@ -11,8 +12,8 @@ class OnUpdate extends Component {
   }
 
   static propTypes = {
-    call: React.PropTypes.func.isRequired,
-    immediate: React.PropTypes.bool
+    call: PropTypes.func.isRequired,
+    immediate: PropTypes.bool
   }
 
   call = (location) => {
